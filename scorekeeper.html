@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root" style="text-align: center;">
+    </div>
+    <script type="text/babel">
+
+
+
+        let Score=0;
+        let Wicket=0;
+       let ballWise=[];
+       let hit=0;
+       let input=React.createRef();
+        function addScore(num){
+        //     Score+=num;
+            hit=num;
+           rootElement.render(<App/>);
+        }
+        function addWicket(){
+            hit="W"
+          
+           rootElement.render(<App/>);
+        }
+
+const ScoreButton=()=>(
+    <div>
+        <button onClick={()=>addScore(0)}> 0 </button>
+<button onClick={()=>addScore(1)}> 1 </button>
+    <button  onClick={()=>addScore(2)}> 2  </button>
+    <button onClick={()=>addScore(3)}> 3 </button>
+    <button onClick={()=>addScore(4)}> 4</button>
+     <button onClick={()=>addScore(5)}>5 </button>
+    <button onClick={()=>addScore(6)}>6</button>
+    <button  onClick={()=>addWicket()  }>Wicket</button>
+</div>
+
+)
+
+
+const BallwiseResults=()=>(
+    <div>
+        
+    {ballWise.map((i,ind)=>
+        <>
+        {ind%6===0?<br/>:null}
+        <span key={ind} >{i===0?<strong>.</strong>:i}</span>&nbsp;&nbsp;</>)
+    }
+</div>
+)
+
+function  handleSubmit(event){
+    event.preventDefault()
+    if(hit=='W'){
+Wicket+=1;
+    }else{
+Score+=hit;
+    }
+ballWise.unshift(<span>{`${hit},${input.current.value}`}</span>);
+hit=0;
+input.current.value="";
+
+// console.log(input.current.value);
+rootElement.render(<App/>);
+    
+}
+
+const Form=()=>(
+<>
+
+    <form onSubmit={handleSubmit}>
+    <input  value={hit}/>
+    <input ref={input} placeholder="Write comment here"/>
+    <button type="submit">Submit </button>
+
+        </form> 
+      </>
+)
+
+
+        const App=()=>{
+            return(
+            <>
+<h1> SCORE KEEPER </h1>
+<h2>Score: {Score}/{Wicket} </h2>
+ <ScoreButton/>
+ <br/>
+ <Form/>
+<hr/> 
+ {ballWise.map((i)=><p>{i}</p>)}
+
+            </>
+        )
+        }
+ const rootElement=ReactDOM.createRoot(document.getElementById("root"))
+ rootElement.render(<App/>);
+    </script>
+
+    
+</body>
+</html>
